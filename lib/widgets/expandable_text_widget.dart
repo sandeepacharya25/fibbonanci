@@ -35,21 +35,39 @@ class _ExpandableTextWidgetState extends State<ExpandableTextWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: secondHalf.isEmpty ? SmallText(size:Dimension.font16,text: firstHalf) : Column(
-        children: [
-          SmallText(text: hiddenText?(firstHalf+"...."):(firstHalf+secondHalf)),
-          InkWell(
-            onTap: (){},
-            child: Row(
+      child: secondHalf.isEmpty
+          ? SmallText(color:AppColors.paraColor,size: Dimension.font16, text: firstHalf)
+          : Column(
               children: [
-                SmallText(size:Dimension.font16,text: hiddenText?"Show More":"Show Less",color: AppColors.mainColor,),
-                Icon(Icons.arrow_drop_down,color: AppColors.mainColor,),
+                SmallText(
+                  height: 1.8,
+                  color: AppColors.paraColor,
+                  size: Dimension.font16,
+                    text: hiddenText
+                        ? (firstHalf + "....")
+                        : (firstHalf + secondHalf)),
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      hiddenText = !hiddenText;
+                    });
+                  },
+                  child: Row(
+                    children: [
+                      SmallText(
+                        size: Dimension.font16,
+                        text: hiddenText ? "Show More" : "Show Less",
+                        color: AppColors.mainColor,
+                      ),
+                      Icon(
+                        Icons.arrow_drop_down,
+                        color: AppColors.mainColor,
+                      ),
+                    ],
+                  ),
+                ),
               ],
-              
             ),
-          ),
-        ],
-      ),
     );
   }
 }

@@ -1,5 +1,6 @@
 
 import 'package:fibbonanci/pages/home/book/popular_book_details.dart';
+import 'package:fibbonanci/pages/home/book/recommended_details.dart';
 import 'package:fibbonanci/pages/home/main_food_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
     return const GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home:Scaffold(
-        body:PopularBookDetails(),
+        body:RecommendedDetails(),
       ),
 
       
