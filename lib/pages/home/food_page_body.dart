@@ -105,7 +105,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                 return Container(
                     margin: EdgeInsets.only(
                       left: Dimension.width20,
-                      right: Dimension.width20,
+                      // right: Dimension.width20,
                       top: Dimension.height10,
                       bottom: Dimension.height10,
                     ),
