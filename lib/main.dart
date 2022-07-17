@@ -21,7 +21,7 @@ Future<void> main() async {
   WidgetsFlutterBinding
       .ensureInitialized(); //to make sure dependencies are loaded before app starts
   await dep.init(); //dependencies are loaded before loading the app
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
     Get.find<RecommendedProductController>().getRecommendedProductList();
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MainFoodPage(),
+      home: const MainFoodPage(),
       initialRoute: RouteHelper.initial,
       getPages: RouteHelper.routes,
     );

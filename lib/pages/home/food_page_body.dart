@@ -27,6 +27,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
   var _currPageValue = 0.0;
   double _scaleFactor = 0.8;
   double _height = Dimension.pageViewContainer;
+
   @override
   void initState() {
     super.initState();
@@ -55,11 +56,14 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                   height: Dimension.pageView,
                   child: PageView.builder(
                       controller: pageController,
+
                       // itemCount: 5,
                       itemCount: popularProducts.popularProductList.length,
                       itemBuilder: (context, position) {
-                        return _buildPageItem(position,
-                            popularProducts.popularProductList[position]);
+                        return _buildPageItem(
+                          position,
+                          popularProducts.popularProductList[position],
+                        );
                       }),
                 )
               : CircularProgressIndicator(
@@ -79,7 +83,8 @@ class _FoodPageBodyState extends State<FoodPageBody> {
               size: const Size.square(9.0),
               activeSize: const Size(18.0, 9.0),
               activeShape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5.0)),
+                borderRadius: BorderRadius.circular(5.0),
+              ),
             ),
           );
         }),
@@ -146,12 +151,13 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                                           Dimension.radius20),
                                       color: Colors.white38,
                                       image: DecorationImage(
-                                        image: NetworkImage(AppConstants
-                                                .BASE_URL +
-                                            AppConstants.UPLOAD_URL +
-                                            recommendedProduct
-                                                .recommendedProductList[index]
-                                                .img!),
+                                        image: NetworkImage(
+                                          'https://mvs.bslmeiyu.com/uploads/images/27567f904a64ba79ae95672e4ddf10c8.png',
+                                          headers: const {
+                                            'Authorization':
+                                                'Bearer ${AppConstants.TOKEN}',
+                                          },
+                                        ),
                                         fit: BoxFit.cover,
                                       )),
                                 ),
@@ -279,11 +285,23 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                     : const Color(0xFF9294cc),
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: NetworkImage(AppConstants.BASE_URL +
-                      AppConstants.UPLOAD_URL +
-                      popularProduct.img!),
+                  image: NetworkImage(
+                    AppConstants.BASE_URL +
+                        AppConstants.UPLOAD_URL +
+                        popularProduct.img!,
+                    headers: {
+                      // 'Content-type': 'image/png',
+                      'Authorization': 'Bearer ${AppConstants.TOKEN}',
+                    },
+                  ),
                 ),
               ),
+              // child: Image.network(
+              //   'https://mvs.bslmeiyu.com/uploads/images/27567f904a64ba79ae95672e4ddf10c8.png',
+              //   headers: const {
+              //     'Authorization': 'Bearer ${AppConstants.TOKEN}',
+              //   },
+              // ),
             ),
             Align(
               alignment: Alignment.bottomCenter,

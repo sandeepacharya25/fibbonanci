@@ -2,6 +2,7 @@
 
 import 'package:fibbonanci/utils/app_Constants.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 class ApiCLient extends GetConnect implements GetxService {
   late String token;
@@ -20,17 +21,22 @@ class ApiCLient extends GetConnect implements GetxService {
       'Authorization': 'Bearer $token',
     };
   }
-  Future<Response> getData(
+  Future<dynamic> getData(
     String uri,
   ) async {
     try {
-      Response response = await get(uri);
-      // var response= await http.get(Uri.parse('http://mvs.bslmeiyu.com'+uri),headers: _mainHeaders);
-      // print("the body is "+response.body);
+      // Response response = await get(uri, headers: _mainHeaders);
+      var response = await http.get(
+        Uri.parse('http://mvs.bslmeiyu.com' + uri),
+        headers: _mainHeaders,
+      );
+      print("the body is " + response.body.toString());
       return response;
-      // return Response(statusCode: 1, );
-
+      // return Response(
+      //   statusCode: 1,
+      // );
     } catch (e) {
+      print(e.toString());
       return Response(statusCode: 1, statusText: e.toString());
     }
   }
