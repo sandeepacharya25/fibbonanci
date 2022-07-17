@@ -1,13 +1,9 @@
 // ignore_for_file: prefer_final_fields, sized_box_for_whitespace, prefer_const_constructors, unnecessary_new
 
-
-import 'dart:io';
-
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:fibbonanci/controllers/popular_product_controller.dart';
 import 'package:fibbonanci/controllers/recommended_product_controller.dart';
 import 'package:fibbonanci/models/popular_product_models.dart';
-import 'package:fibbonanci/pages/home/book/recommended_details.dart';
 import 'package:fibbonanci/routes/route_helper.dart';
 import 'package:fibbonanci/utils/app_Constants.dart';
 import 'package:fibbonanci/utils/colors.dart';
@@ -18,10 +14,6 @@ import 'package:fibbonanci/widgets/icon_and_text.dart';
 import 'package:fibbonanci/widgets/smallText.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart'as http;
-
-
-import 'book/popular_book_details.dart';
 
 class FoodPageBody extends StatefulWidget {
   const FoodPageBody({Key? key}) : super(key: key);
@@ -37,7 +29,6 @@ class _FoodPageBodyState extends State<FoodPageBody> {
   double _height = Dimension.pageViewContainer;
   @override
   void initState() {
-    get();
     super.initState();
     pageController.addListener(() {
       setState(() {
@@ -52,42 +43,28 @@ class _FoodPageBodyState extends State<FoodPageBody> {
     super.dispose();
   }
 
-  get ()async{
-     HttpClient client = new HttpClient();
-  // tls 1.2 error
-//  var request = await client.getUrl(Uri.parse('https://shop.io.mi-img.com/app/shop/img?id=shop_88f929c5731967cbc8339cfae1f5f0ec.jpeg')); 
-  // tls 1.3 normal
-  var request = await client.getUrl(Uri.parse(AppConstants.BASE_URL+AppConstants.POPURAL_PRODUCT_URL));
-  var response = await request.close();
-  print(response.headers);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         //Slider section
         GetBuilder<PopularProductController>(builder: (popularProducts) {
-          return 
-          // popularProducts.isLoaded
-              // ? 
-              Container(
+          return popularProducts.isLoaded
+              ? Container(
                   // color: Colors.red,
                   height: Dimension.pageView,
-                  child: Image.network('https://static.remove.bg/remove-bg-web/5c20d2ecc9ddb1b6c85540a333ec65e2c616dbbd/assets/start_remove-c851bdf8d3127a24e2d137a55b1b427378cd17385b01aec6e59d5d4b5f39d2ec.png',),
-                  // PageView.builder(
-                  //     controller: pageController,
-                  //     // itemCount: 5,
-                  //     itemCount: popularProducts.popularProductList.length,
-                  //     itemBuilder: (context, position) {
-                  //       return _buildPageItem(position,
-                  //           popularProducts.popularProductList[position]);
-                  //     }),
+                  child: PageView.builder(
+                      controller: pageController,
+                      // itemCount: 5,
+                      itemCount: popularProducts.popularProductList.length,
+                      itemBuilder: (context, position) {
+                        return _buildPageItem(position,
+                            popularProducts.popularProductList[position]);
+                      }),
+                )
+              : CircularProgressIndicator(
+                  color: AppColors.mainColor,
                 );
-              // : 
-              // CircularProgressIndicator(
-              //     color: AppColors.mainColor,
-              //   );
         }),
 
         GetBuilder<PopularProductController>(builder: (popularProducts) {
@@ -296,18 +273,17 @@ class _FoodPageBodyState extends State<FoodPageBody> {
               margin: EdgeInsets.only(
                   left: Dimension.width10, right: Dimension.width10),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(Dimension.radius30),
-                  color: index.isEven
-                      ? const Color(0xFF69c5df)
-                      : const Color(0xFF9294cc),
-                  image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image:
-                       NetworkImage('https://www.google.com/search?q=image&sxsrf=ALiCzsbnECeORM_ltVKftq8j03gqzfviNQ:1658077109528&tbm=isch&source=iu&ictx=1&vet=1&fir=JoR7JNzGko0S6M%252C0JWe7yDOKrVFAM%252C_%253BqXynBYpZpHkhWM%252C4O2GvGuD-Cf09M%252C_%253BDH7p1w2o_fIU8M%252CBa_eiczVaD9-zM%252C_%253Bn5hAWsQ-sgKo_M%252C-UStXW0dQEx4SM%252C_%253B2nDXavJs9DoKTM%252CB51x0PBR9KNzvM%252C_%253BkwgHAQqTiLQXLM%252C8VOgt6vy2VwiSM%252C_%253BBx81dUgHmqLhzM%252CNMmM-IXyCkU2hM%252C_%253B0vb1Fq79Feed-M%252C8VOgt6vy2VwiSM%252C_%253B2DNOEjVi-CBaYM%252CAOz9-XMe1ixZJM%252C_%253BpcDOrt7aB9GzZM%252CxpEVMhwsy8IFTM%252C_%253B0sOgRvZZyWRMuM%252CZaycYywhXLmIVM%252C_%253BRnw4ZbzC7SAu-M%252CwJy6d5uce-qbnM%252C_%253BpZG009_n8yw8iM%252CHgiYJMPP6P-sHM%252C_%253BMOAYgJU89sFKnM%252CygIoihldBPn-LM%252C_&usg=AI4_-kT34cn2CvR77sGER0-P0enbpxV4Aw&sa=X&ved=2ahUKEwjBnf7IsoD5AhXS9zgGHTuuAvYQ9QF6BAgREAE#imgrc=qXynBYpZpHkhWM',
-                        // AppConstants.BASE_URL +
-                        //   AppConstants.UPLOAD_URL +
-                        //   popularProduct.img!
-                          ))),
+                borderRadius: BorderRadius.circular(Dimension.radius30),
+                color: index.isEven
+                    ? const Color(0xFF69c5df)
+                    : const Color(0xFF9294cc),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(AppConstants.BASE_URL +
+                      AppConstants.UPLOAD_URL +
+                      popularProduct.img!),
+                ),
+              ),
             ),
             Align(
               alignment: Alignment.bottomCenter,
