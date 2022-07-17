@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:fibbonanci/utils/dimensions.dart';
 import 'package:fibbonanci/widgets/smallText.dart';
 import 'package:flutter/material.dart';

@@ -1,25 +1,40 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, prefer_adjacent_string_concatenation
+
+import 'package:fibbonanci/controllers/popular_product_controller.dart';
+import 'package:fibbonanci/controllers/recommended_product_controller.dart';
+import 'package:fibbonanci/routes/route_helper.dart';
+import 'package:fibbonanci/utils/app_Constants.dart';
 import 'package:fibbonanci/utils/colors.dart';
 import 'package:fibbonanci/utils/dimensions.dart';
 import 'package:fibbonanci/widgets/app_icon.dart';
 import 'package:fibbonanci/widgets/bigText.dart';
 import 'package:fibbonanci/widgets/expandable_text_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class RecommendedDetails extends StatelessWidget {
-  const RecommendedDetails({Key? key}) : super(key: key);
+  int pageId;
+  RecommendedDetails({Key? key, required this.pageId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var product =
+        Get.find<RecommendedProductController>().recommendedProductList[pageId];
     return Scaffold(
       backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            automaticallyImplyLeading: false,
             toolbarHeight: 70,
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppIcon(icon: Icons.clear),
+                GestureDetector(
+                    onTap: () {
+                      Get.toNamed(RouteHelper.getInitial());
+                    },
+                    child: AppIcon(icon: Icons.clear)),
                 AppIcon(icon: Icons.shopping_cart_outlined),
               ],
             ),
@@ -29,7 +44,7 @@ class RecommendedDetails extends StatelessWidget {
                 padding: EdgeInsets.only(top: 5, bottom: 10),
                 child: Center(
                   child: BigText(
-                    text: "Puspha Cafe",
+                    text: product.name!,
                     size: Dimension.font26,
                   ),
                 ),
@@ -47,8 +62,8 @@ class RecommendedDetails extends StatelessWidget {
             backgroundColor: AppColors.yellowColor,
             expandedHeight: 300,
             flexibleSpace: FlexibleSpaceBar(
-              background: Image.asset(
-                "images/1stBook.jpg",
+              background: Image.network(
+                AppConstants.BASE_URL + AppConstants.UPLOAD_URL + product.img!,
                 width: double.maxFinite,
                 fit: BoxFit.cover,
               ),
@@ -62,8 +77,11 @@ class RecommendedDetails extends StatelessWidget {
                 children: [
                   Container(
                     child: ExpandableTextWidget(
-                      text:
-                          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                      text: product.description!,
+                    ),
+                    margin: EdgeInsets.only(
+                      left: Dimension.width20,
+                      right: Dimension.width20,
                     ),
                   ),
                 ],
@@ -72,88 +90,102 @@ class RecommendedDetails extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: Column(
+      bottomNavigationBar: GetBuilder<PopularProductController>(builder:(controller){
+        return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
             padding: EdgeInsets.only(
-              left: Dimension.width20*2.5,
-              right: Dimension.width20*2.5,
+              left: Dimension.width20 * 2.5,
+              right: Dimension.width20 * 2.5,
               top: Dimension.height10,
               bottom: Dimension.height10,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppIcon(
-                  iconSize: Dimension.iconSize24,
-                  icon: Icons.remove,
-                  backgroundColor: AppColors.mainColor,
-                  iconColor: Colors.white,
-                  
+                GestureDetector(
+                  onTap: (){
+                    controller.setQuantity(false);
+                  },
+                  child: AppIcon(
+                    iconSize: Dimension.iconSize24,
+                    icon: Icons.remove,
+                    backgroundColor: AppColors.mainColor,
+                    iconColor: Colors.white,
+                  ),
                 ),
-                BigText(text: "\$12.88 "+" X "+" 0 ",color: AppColors.mainBlackColor,size: Dimension.font26,),
-                AppIcon(
-                  iconSize: Dimension.iconSize24,
-                  icon: Icons.add,
-                  backgroundColor: AppColors.mainColor,
-                  iconColor: Colors.white,
+                BigText(
+                  text: "\$ ${product.price!} X  ${controller.inCartItems} ",
+                  color: AppColors.mainBlackColor,
+                  size: Dimension.font26,
+                ),
+                GestureDetector(
+                  onTap: (){
+                    controller.setQuantity(true);
+                  },
+                  child: AppIcon(
+                    iconSize: Dimension.iconSize24,
+                    icon: Icons.add,
+                    backgroundColor: AppColors.mainColor,
+                    iconColor: Colors.white,
+                  ),
                 ),
               ],
             ),
           ),
-           Container(
-        height: Dimension.bottomHeightBar,
-        padding: EdgeInsets.only(
-            top: Dimension.height30,
-            bottom: Dimension.height30,
-            left: Dimension.width20,
-            right: Dimension.width20),
-        decoration: BoxDecoration(
-          color: AppColors.buttonBackgroundColor,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(Dimension.radius20 * 2),
-              topRight: Radius.circular(Dimension.radius20 * 2)),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              padding: EdgeInsets.only(
-                  top: Dimension.height20,
-                  bottom: Dimension.height20,
-                  left: Dimension.width20,
-                  right: Dimension.width20),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dimension.radius20),
-                color: Colors.white,
-              ),
-              child: Icon(
-                Icons.favorite,
-                color: AppColors.mainColor,
-                
-              ),
+          Container(
+            height: Dimension.bottomHeightBar,
+            padding: EdgeInsets.only(
+                top: Dimension.height30,
+                bottom: Dimension.height30,
+                left: Dimension.width20,
+                right: Dimension.width20),
+            decoration: BoxDecoration(
+              color: AppColors.buttonBackgroundColor,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(Dimension.radius20 * 2),
+                  topRight: Radius.circular(Dimension.radius20 * 2)),
             ),
-            Container(
-              padding: EdgeInsets.only(
-                  top: Dimension.height20,
-                  bottom: Dimension.height20,
-                  left: Dimension.width20,
-                  right: Dimension.width20),
-              child: BigText(
-                text: "\$10 | Add to cart",
-                color: Colors.white,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dimension.radius20),
-                color: AppColors.mainColor,
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: EdgeInsets.only(
+                      top: Dimension.height20,
+                      bottom: Dimension.height20,
+                      left: Dimension.width20,
+                      right: Dimension.width20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(Dimension.radius20),
+                    color: Colors.white,
+                  ),
+                  child: Icon(
+                    Icons.favorite,
+                    color: AppColors.mainColor,
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(
+                      top: Dimension.height20,
+                      bottom: Dimension.height20,
+                      left: Dimension.width20,
+                      right: Dimension.width20),
+                  child: BigText(
+                    text: "\$10 | Add to cart",
+                    color: Colors.white,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(Dimension.radius20),
+                    color: AppColors.mainColor,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
         ],
-      ),
+      );
+      })
     );
   }
 }

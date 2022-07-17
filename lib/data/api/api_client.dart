@@ -1,4 +1,8 @@
+// ignore_for_file: unused_field, prefer_const_constructors
+
+import 'package:fibbonanci/utils/app_Constants.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 class ApiCLient extends GetConnect implements GetxService{
   late String token;
@@ -10,17 +14,23 @@ class ApiCLient extends GetConnect implements GetxService{
   ApiCLient({required this.appBaseUrl}){
     baseUrl=appBaseUrl;
     timeout=Duration(seconds: 30);
+    token=AppConstants.TOKEN;
     _mainHeaders={
-      'Content-Type':'application/json; charset=UTF-8',
+      'Content-type':'application/json; charset=UTF-8',
       'Authorization':'Bearer $token',
     };
   }
   Future<Response> getData(String uri,)async{
-    try{
-      Response response= await get(uri);
-      return response;
-    }catch(e){
-      return Response(statusCode: 1, statusText: e.toString());
-    }
+    // try{
+      
+      // Response response= await get(uri);
+      var response= await http.get(Uri.parse('http://mvs.bslmeiyu.com'+uri),headers: _mainHeaders);
+      print("the body is "+response.body);
+      // return response;
+      return Response(statusCode: 1, );
+    
+    // }catch(e){
+    //   return Response(statusCode: 1, statusText: e.toString());
+    // }
   }
 }

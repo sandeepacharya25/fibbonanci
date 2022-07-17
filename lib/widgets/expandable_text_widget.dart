@@ -20,7 +20,7 @@ class _ExpandableTextWidgetState extends State<ExpandableTextWidget> {
   double textHeight = Dimension.screenHeight / 5.63;
   @override
   void initState() {
-    // TODO: implement initState
+    
     if (widget.text.length > textHeight) {
       firstHalf = widget.text.substring(0, textHeight.toInt());
       secondHalf =

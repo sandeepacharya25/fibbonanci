@@ -1,8 +1,11 @@
 
+// ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors
+
 import 'package:fibbonanci/pages/home/food_page_body.dart';
 import 'package:fibbonanci/utils/colors.dart';
 import 'package:fibbonanci/utils/dimensions.dart';
 import 'package:fibbonanci/widgets/bigText.dart';
+import 'package:fibbonanci/widgets/navigation_bar.dart';
 import 'package:fibbonanci/widgets/smallText.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +20,9 @@ class _MainFoodPageState extends State<MainFoodPage> {
   @override
   Widget build(BuildContext context) {
   
-    return SafeArea(
+    return  Scaffold(
+    
+    body: SafeArea(
       child: Column(
         children: [
           //showing the header
@@ -62,11 +67,14 @@ class _MainFoodPageState extends State<MainFoodPage> {
             ),
           ),
         //Showing the body
+  
         Expanded(child: SingleChildScrollView(
           child:FoodPageBody(),
         ))
         ],
       ),
+    ),
+    bottomNavigationBar: NavigationBarWidgets(),
     );
   }
 }

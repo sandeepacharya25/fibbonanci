@@ -1,4 +1,5 @@
 import 'package:fibbonanci/data/api/api_client.dart';
+import 'package:fibbonanci/utils/app_Constants.dart';
 import 'package:get/get.dart';
 
 class PopularProductRepo extends GetxService{
@@ -6,7 +7,7 @@ class PopularProductRepo extends GetxService{
   PopularProductRepo({required this.apiClient});
 
   Future<Response> getPopularProductList() async{
-    return await apiClient.getData("https://www.dbestech.com/api/product/List");
+    return await apiClient.getData(AppConstants.POPURAL_PRODUCT_URL);
 
   }
 }
