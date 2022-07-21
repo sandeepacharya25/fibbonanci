@@ -15,10 +15,10 @@ class CartController extends GetxController {
   Map<int, CartModels> get items => _items;
 
   void addItem(ProductModels product, int quantity) {
-    var totalQuantity=0;
+    var totalQuantity = 0;
     if (_items.containsKey(product.id!)) {
       _items.update(product.id!, (value) {
-        totalQuantity=value.quantity!+quantity;
+        totalQuantity = value.quantity! + quantity;
         return CartModels(
           id: value.id,
           name: value.name,
@@ -27,33 +27,38 @@ class CartController extends GetxController {
           isExist: true,
           time: DateTime.now().toString(),
           quantity: value.quantity! + quantity,
+          product: product,
         );
       });
 
-      if(totalQuantity<=0){
+      if (totalQuantity <= 0) {
         _items.remove(product.id!);
       }
     } else {
-      if(quantity>0){
+      if (quantity > 0) {
         _items.putIfAbsent(product.id!, () {
-        return CartModels(
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          img: product.img,
-          isExist: true,
-          time: DateTime.now().toString(),
-          quantity: quantity,
+          return CartModels(
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            img: product.img,
+            isExist: true,
+            time: DateTime.now().toString(),
+            quantity: quantity,
+            product:product,
+          );
+        });
+      } else {
+        Get.snackbar(
+          "Item count",
+          "You should at least add an item in the cart",
+          backgroundColor: AppColors.mainColor,
+          colorText: Colors.white,
         );
-      });
-      }
-      else{
-         Get.snackbar("Item count", "You should at least add an item in the cart",
-      backgroundColor: AppColors.mainColor,
-      colorText: Colors.white,
-      );
       }
     }
+
+    update();
   }
 
   bool existInCart(ProductModels product) {
@@ -64,24 +69,39 @@ class CartController extends GetxController {
     }
   }
 
- int getQuantity(ProductModels product){
-    var quantity=0;
-    if(_items.containsKey(product.id)){
+  int getQuantity(ProductModels product) {
+    var quantity = 0;
+    if (_items.containsKey(product.id)) {
       _items.forEach((key, value) {
-        if(key==product.id){
-          quantity=value.quantity!;
+        if (key == product.id) {
+          quantity = value.quantity!;
         }
-       });
+      });
     }
     return quantity;
   }
 
- int get totalItems{
-  var totalQuantity=0;
-  _items.forEach((key, value) { 
-   totalQuantity+= value.quantity!;
-  });
+  int get totalItems {
+    var totalQuantity = 0;
+    _items.forEach((key, value) {
+      totalQuantity += value.quantity!;
+    });
 
-  return totalQuantity;
- }
+    return totalQuantity;
+  }
+
+  List<CartModels> get getItems {
+    return _items.entries.map((e) {
+      return e.value;
+    }).toList();
+  }
+
+  int get totalAmount{
+    var total=0;
+    _items.forEach((key,value){
+      total+=value.quantity!*value.price!;
+
+    });
+    return total;
+  }
 }

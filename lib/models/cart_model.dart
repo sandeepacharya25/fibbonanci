@@ -1,3 +1,7 @@
+import 'package:fibbonanci/models/popular_product_models.dart';
+
+
+
 class CartModels {
   int? id;
   String? name;
@@ -6,6 +10,7 @@ class CartModels {
   int? quantity;
   bool? isExist;
   String? time;
+  ProductModels? product;
 
   CartModels({
     this.id,
@@ -15,6 +20,7 @@ class CartModels {
     this.quantity,
     this.isExist,
     this.time,
+    this.product,
   });
 
   CartModels.fromJson(Map<String, dynamic> json) {
@@ -27,6 +33,7 @@ class CartModels {
     quantity = json['quantity'];
     isExist = json['isExist'];
     time = json['time'];
+    product=ProductModels.fromJson(json['product']);
   }
 
 }

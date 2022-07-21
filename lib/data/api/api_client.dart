@@ -21,16 +21,16 @@ class ApiCLient extends GetConnect implements GetxService{
     };
   }
   Future<Response> getData(String uri,)async{
-    // try{
+    try{
       
-      // Response response= await get(uri);
-      var response= await http.get(Uri.parse('http://mvs.bslmeiyu.com'+uri),headers: _mainHeaders);
-      print("the body is "+response.body);
-      // return response;
-      return Response(statusCode: 1, );
+      Response response= await get(uri);
+      // var response= await http.get(Uri.parse('http://mvs.bslmeiyu.com'+uri),headers: _mainHeaders);
+      // print("the body is "+response.body);
+      return response;
+      // return Response(statusCode: 1, );
     
-    // }catch(e){
-    //   return Response(statusCode: 1, statusText: e.toString());
-    // }
+    }catch(e){
+      return Response(statusCode: 1, statusText: e.toString());
+    }
   }
 }

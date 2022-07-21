@@ -1,6 +1,8 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:fibbonanci/routes/route_helper.dart';
 import 'package:fibbonanci/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../utils/dimensions.dart';
 import 'app_icon.dart';
@@ -23,24 +25,30 @@ class _NavigationBarWidgetsState extends State<NavigationBarWidgets> {
           //   size: 30,
           //   color: Colors.green[400],
           // ),
-           AppIcon(icon: Icons.home,
-        //  size: Dimension.iconSize24*2,
-         iconSize: Dimension.iconSize24*1.5,
-         iconColor: AppColors.mainColor,
-
-         ),
+           GestureDetector(
+            onTap: ()=>Get.toNamed(RouteHelper.getInitial()),
+             child: AppIcon(icon: Icons.home,
+                   //  size: Dimension.iconSize24*2,
+                    iconSize: Dimension.iconSize24*1.5,
+                    iconColor: AppColors.mainColor,
+           
+                    ),
+           ),
 
           // Icon(
           //   Icons.medication,
           //   size: 30,
           //   color: Colors.green[400],
           // ),
-           AppIcon(icon: Icons.shopping_bag,
-        //  size: Dimension.iconSize24*2,
-         iconSize: Dimension.iconSize24*1.5,
-         iconColor: AppColors.mainColor,
-
-         ),
+           GestureDetector(
+            onTap: ()=>Get.toNamed(RouteHelper.getCartPage()),
+             child: AppIcon(icon: Icons.shopping_bag,
+                   //  size: Dimension.iconSize24*2,
+                    iconSize: Dimension.iconSize24*1.5,
+                    iconColor: AppColors.mainColor,
+           
+                    ),
+           ),
           // RawMaterialButton(
           //   onPressed: () {
           //     Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Emergency()));
@@ -75,12 +83,15 @@ class _NavigationBarWidgetsState extends State<NavigationBarWidgets> {
           //   size: 30,
           //   color: Colors.green,
           // ),
-           AppIcon(icon: Icons.person,
-       
-         iconSize: Dimension.iconSize24*1.5,
-         iconColor: AppColors.mainColor,
-
-         ),
+           GestureDetector(
+            onTap: ()=>Get.toNamed(RouteHelper.getProfilePage()),
+             child: AppIcon(icon: Icons.person,
+                  
+                    iconSize: Dimension.iconSize24*1.5,
+                    iconColor: AppColors.mainColor,
+           
+                    ),
+           ),
           // Icon(
           //   Icons.person,
           //   size: 30,

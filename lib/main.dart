@@ -3,7 +3,9 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:fibbonanci/controllers/popular_product_controller.dart';
 import 'package:fibbonanci/controllers/recommended_product_controller.dart';
+import 'package:fibbonanci/pages/cart/cart_page.dart';
 import 'package:fibbonanci/pages/home/book/popular_book_details.dart';
+import 'package:fibbonanci/pages/home/book/product_list.dart';
 import 'package:fibbonanci/pages/home/book/recommended_details.dart';
 import 'package:fibbonanci/pages/home/food_page_body.dart';
 import 'package:fibbonanci/pages/home/main_food_page.dart';
@@ -33,9 +35,9 @@ class MyApp extends StatelessWidget {
     Get.find<RecommendedProductController>().getRecommendedProductList();
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MainFoodPage(),
-      initialRoute: RouteHelper.initial,
-      getPages: RouteHelper.routes,
+      home: ProductList(),
+      // initialRoute: RouteHelper.initial,
+      // getPages: RouteHelper.routes,
     );
   }
 }

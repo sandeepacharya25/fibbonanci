@@ -2,6 +2,7 @@
 //7:05
 import 'package:fibbonanci/controllers/cart_controller.dart';
 import 'package:fibbonanci/controllers/popular_product_controller.dart';
+import 'package:fibbonanci/pages/cart/cart_page.dart';
 import 'package:fibbonanci/pages/home/main_food_page.dart';
 import 'package:fibbonanci/routes/route_helper.dart';
 import 'package:fibbonanci/utils/app_Constants.dart';
@@ -19,7 +20,8 @@ import '../../../widgets/bigText.dart';
 
 class PopularBookDetails extends StatelessWidget {
   int pageId;
-  PopularBookDetails({Key? key, required this.pageId}) : super(key: key);
+  final String page;
+  PopularBookDetails({Key? key, required this.pageId, required this.page}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -58,36 +60,48 @@ class PopularBookDetails extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
-                      onTap: () => Get.toNamed(RouteHelper.getInitial()),
+                      onTap: (){
+                        if(page=="cartpage"){
+                          Get.toNamed(RouteHelper.getCartPage());
+                        }else{
+                          Get.toNamed(RouteHelper.getInitial());
+                        }
+
+                      },
                       child: AppIcon(icon: Icons.arrow_back_ios)),
                   GetBuilder<PopularProductController>(builder: ((controller) {
-                    return Stack(
-                      children: [
-                        AppIcon(icon: Icons.shopping_cart_outlined),
-                        Get.find<PopularProductController>().totalItems >= 1
-                            ? Positioned(
-                              right: 0,
-                              top: 0,
-                              child: AppIcon(
-                                  icon: Icons.circle,
-                                  size: 20,
-                                  iconColor: Colors.transparent,
-                                  backgroundColor: AppColors.mainColor,
+                    return GestureDetector(
+                       onTap: (){
+                            Get.toNamed(RouteHelper.getCartPage());
+                          },
+                      child: Stack(
+                        children: [
+                          AppIcon(icon: Icons.shopping_cart_outlined),
+                          Get.find<PopularProductController>().totalItems >= 1
+                              ? Positioned(
+                                right: 0,
+                                top: 0,
+                                child: AppIcon(
+                                    icon: Icons.circle,
+                                    size: 20,
+                                    iconColor: Colors.transparent,
+                                    backgroundColor: AppColors.mainColor,
+                                  ),
+                              )
+                              : Container(),
+                    
+                              Get.find<PopularProductController>().totalItems >= 1
+                              ? Positioned(
+                                right: 3,
+                                top: 3,
+                                child: BigText(text: Get.find<PopularProductController>().totalItems.toString(),
+                                size: 12,
+                                color: Colors.white,
                                 ),
-                            )
-                            : Container(),
-
-                            Get.find<PopularProductController>().totalItems >= 1
-                            ? Positioned(
-                              right: 3,
-                              top: 3,
-                              child: BigText(text: Get.find<PopularProductController>().totalItems.toString(),
-                              size: 12,
-                              color: Colors.white,
-                              ),
-                            )
-                            : Container(),
-                      ],
+                              )
+                              : Container(),
+                        ],
+                      ),
                     );
                   }))
                 ],
@@ -195,24 +209,24 @@ class PopularBookDetails extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.only(
-                        top: Dimension.height20,
-                        bottom: Dimension.height20,
-                        left: Dimension.width20,
-                        right: Dimension.width20),
-                    child: GestureDetector(
-                      onTap: () {
+                  GestureDetector(
+                    onTap: () {
                         popularProduct.addItem(product);
                       },
+                    child: Container(
+                      padding: EdgeInsets.only(
+                          top: Dimension.height20,
+                          bottom: Dimension.height20,
+                          left: Dimension.width20,
+                          right: Dimension.width20),
                       child: BigText(
                         text: "\$ ${product.price!} | Add to cart",
                         color: Colors.white,
                       ),
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(Dimension.radius20),
-                      color: AppColors.mainColor,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(Dimension.radius20),
+                        color: AppColors.mainColor,
+                      ),
                     ),
                   ),
                 ],
