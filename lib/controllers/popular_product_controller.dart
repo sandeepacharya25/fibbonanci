@@ -6,7 +6,7 @@ import 'package:fibbonanci/models/popular_product_models.dart';
 import 'package:fibbonanci/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:http/http.dart' as http;
 class PopularProductController extends GetxController {
   final PopularProductRepo popularProductRepo;
   PopularProductController({required this.popularProductRepo});
@@ -26,11 +26,12 @@ class PopularProductController extends GetxController {
 
   Future<void> getPopularProductList() async {
     Response response = await popularProductRepo.getPopularProductList();
-    
-
+    // http.Response response= await http.get(Uri.parse('https://mvs.bslmeiyu.com/api/v1/products/popular'));
+    print(response.statusCode);
     if (response.statusCode == 200) {
       print("status cod ereceived");
       _popularProductList = [];
+      // ProductModels ap=ProductModels.fromJson(response.body);
       _popularProductList.addAll(Product.fromJson(response.body).products);
 
 

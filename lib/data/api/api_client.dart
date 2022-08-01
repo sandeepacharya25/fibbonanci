@@ -20,10 +20,24 @@ class ApiCLient extends GetConnect implements GetxService{
       'Authorization':'Bearer $token',
     };
   }
-  Future<Response> getData(String uri,)async{
+  // Future<Response> getData(String uri,)async{
+  //   try{
+      
+  //     Response response= await get(uri);
+  //     // var response= await http.get(Uri.parse('http://mvs.bslmeiyu.com'+uri),headers: _mainHeaders);
+  //     // print("the body is "+response.body);
+  //     return response;
+  //     // return Response(statusCode: 1, );
+    
+  //   }catch(e){
+  //     return Response(statusCode: 1, statusText: e.toString());
+  //   }
+  // }
+   Future<Response> getData(String uri,)async{
     try{
       
-      Response response= await get(uri);
+      Response response= await get("http://3.87.222.46:8085/api");
+      print(response);
       // var response= await http.get(Uri.parse('http://mvs.bslmeiyu.com'+uri),headers: _mainHeaders);
       // print("the body is "+response.body);
       return response;
@@ -33,4 +47,5 @@ class ApiCLient extends GetConnect implements GetxService{
       return Response(statusCode: 1, statusText: e.toString());
     }
   }
+
 }
